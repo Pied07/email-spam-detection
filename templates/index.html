@@ -1,0 +1,158 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESD</title>
+</head>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+  }
+
+  .form-class {
+    text-align: center;
+    margin: auto;
+  }
+
+  .text-input {
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: block;
+    height: 50px;
+    width: 700px;
+  }
+
+  .sub-btn {
+    text-align: center;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    width: 120px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: rgb(0, 107, 0);
+  }
+
+  .error-message {
+    color: red;
+  }
+
+  .scroll {
+    height: 230px;
+    overflow-y: auto;
+    margin: auto;
+  }
+
+  #resultsTable {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    border-collapse: collapse;
+  }
+
+  #resultsTable th,
+  #resultsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  header {
+    text-align: center;
+    padding: 15px;
+    color: black;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+    background-color: black;
+    color: white;
+  }
+</style>
+
+<body>
+  <header>
+    <h1>Email Spam Detection</h1>
+  </header>
+  <main>
+
+    <div class="container">
+        <form action="{{ url_for('predict')}}" method="POST">
+        <input id="emailText" type="text" name="message" class="text-input" placeholder="Enter text here">
+        <input id="file" type="file" name="file" accept=".csv,.xls,.xlsx">
+        
+        <button id="detectButton" type="submit" class="sub-btn" >Detect</button>
+        
+        
+        <p id="errorMessage" class="error-message">{% print(err_msg) %}</p>
+        <div class="scroll">
+            <tbody>
+                
+            </tbody>
+            <table id="resultsTable">
+                <tr>
+                    <th>Email Text</th>
+                    
+                    <th>Spam?</th>
+                </tr>
+                {% for i,j in printing_Values %}
+                <tbody id="resultsBody">
+                        
+                        {% if message != '' %}
+                        <td>{% print(i) %}</td>
+
+                          {% if j == 1 %}
+                          <td>Yes</td>
+                          {% elif j == 0 %}
+                          <td>No</td>
+                          {% endif %}
+
+                            
+                        {% endif %}
+                                         
+                </tbody>
+                {% endfor %}
+                {% for i,j in file_Values %}
+                <tbody id="resultsBody">
+                        
+                        <td>{% print(i) %}</td>
+                          {% if j == 1 %}
+                          <td>Yes</td>
+                          {% elif j == 0 %}
+                          <td>No</td>
+                          {% endif %}
+                                         
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </form>
+  
+    
+    </div>
+  </main>
+  <footer>
+    Copyright &copy; University Institute of Technology | Group 11 | Email Spam Detection
+  </footer>
+
+</body>
+
+</html>
